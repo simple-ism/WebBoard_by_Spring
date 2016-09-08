@@ -15,16 +15,27 @@ import com.oreilly.servlet.MultipartRequest;
 import board.Board;
 import board.BoardDAO;
 import board.BoardFile;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
 import util.BitFileRenamePolicy;
 
 
 public class WriteController implements Controller {
+	BoardService service;
+	
+	
+	
+	public WriteController() {
+		service = new BoardServiceImpl();
+	}
+
+
 
 	@Override
 	public ModelAndView execute(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ServletContext context = request.getServletContext();
 		String path = context.getRealPath("/upload");
@@ -52,9 +63,8 @@ public class WriteController implements Controller {
 		board.setWriter(mRequest.getParameter("writer"));
 		board.setContent(mRequest.getParameter("content"));
 		
-		// 게시물 저장 처리 부탁..
-		BoardDAO dao = new BoardDAO();
-		int no = dao.insertBoard(board);
+		
+		int no = service.writeBoard(board);
 		
 		/*
 			no number(6) not null,
@@ -76,12 +86,10 @@ public class WriteController implements Controller {
 			boardFile.setFilePath(datePath);
 			boardFile.setFileSize(fileSize);
 			
-			dao.insertBoardFile(boardFile);
+			service.writeBoardFile(boardFile);
 		}
-		ModelAndView mav = new ModelAndView();
-		mav.setView("redirect:list.do");
-		
-		return mav;
+			
+		return new ModelAndView("redirect:list.do");
 		
 	}
 }

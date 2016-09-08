@@ -19,10 +19,8 @@ public class LoginFormController implements Controller {
 	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) 
 					throws ServletException, IOException {
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("loginForm.jsp");
-		return mav;
+	
+		return new ModelAndView("loginForm.jsp");
 			
 	}
 }

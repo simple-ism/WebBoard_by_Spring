@@ -8,15 +8,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import board.Comment;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
 
 
 public class CommentUpdateController implements Controller {
-
+	BoardService service;
 	
+	
+	
+	public CommentUpdateController() {
+		service = new BoardServiceImpl();
+	}
+
+
+
 	public ModelAndView execute(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 		int no = Integer.parseInt(request.getParameter("no"));
@@ -26,16 +36,9 @@ public class CommentUpdateController implements Controller {
 		comment.setContent(request.getParameter("content"));
 		comment.setCommentNo(commentNo);
 		
-		// 게시물 저장 처리 부탁..
-		BoardDAO dao = new BoardDAO();
-		dao.updateComment(comment);
+		service.commentUpdate(comment);
 		
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setView("redirect:detail.do?no=" + no);		
-		
-		
-		return mav;
+		return new ModelAndView("redirect:detail.do?no=" + no);
 				
 	
 		

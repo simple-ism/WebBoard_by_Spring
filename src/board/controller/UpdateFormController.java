@@ -8,22 +8,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.Board;
 import board.BoardDAO;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
 
 
 public class UpdateFormController implements Controller {
-
+	BoardService service;
 	
+	
+	
+	public UpdateFormController() {
+		service = new BoardServiceImpl();
+	}
+
+
+
 	public ModelAndView execute(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int no = Integer.parseInt(request.getParameter("no"));
-		BoardDAO dao = new BoardDAO();
-		Board board = dao.selectBoardByNo(no);
+		
+		Board board = service.updateForm(no);
 		
 		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("updateForm.jsp");
+		ModelAndView mav = new ModelAndView("updateForm.jsp");
 		mav.addAttribute("board", board);
 		
 		return mav;

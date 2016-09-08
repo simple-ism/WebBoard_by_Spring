@@ -7,23 +7,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
 
 
 public class DeleteController implements Controller {
-
+	BoardService service;
 	
+	
+	public DeleteController() {
+		service = new BoardServiceImpl();
+	}
+
+
 	public ModelAndView execute(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int no = Integer.parseInt(request.getParameter("no"));
-		BoardDAO dao = new BoardDAO();
-		dao.deleteBoard(no);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("redirect:list.do");
-		
-		return mav;
+	
+		service.delete(no);
+		return new ModelAndView("redirect:list.do");
 //		response.sendRedirect("list.do");
 //		return "redirect:list.do";
 	}

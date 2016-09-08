@@ -28,7 +28,6 @@ public class LoginController implements Controller {
 		// id = a, pass = 1 이 경우 로그인 성공
 		// 메인페이지로 이동
 		// 세션에 정보를 설정한다.
-		ModelAndView mav = new ModelAndView();
 		if ("a".equals(id) && "1".equals(pass)) {
 			Member m = new Member();
 			m.setId(id);
@@ -39,16 +38,15 @@ public class LoginController implements Controller {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", m);
 //			response.sendRedirect(request.getContextPath() + "/index.jsp");
-			mav.setView("redirect:"+request.getContextPath()+"/index.jsp");
-			return mav;
+		
+			return new ModelAndView("redirect:"+request.getContextPath()+"/index.jsp");
 			
 		}
 		// 로그인 실패
 		// 로그인 폼 페이지로 이동
 		else {
-			
-			mav.setView("redirect:loginForm.do");
-			return mav;
+		
+			return new ModelAndView("redirect:loginForm.do");
 			
 		}
 	}

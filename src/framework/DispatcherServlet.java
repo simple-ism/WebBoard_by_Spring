@@ -75,26 +75,30 @@ public class DispatcherServlet extends HttpServlet{
 		if(controller == null){
 			throw new ServletException("요청하신 URL이 존재하지 않습니다.");
 		}
-		ModelAndView mav = controller.execute(request,response);
-		view = mav.getView();
-		if(view.startsWith("redirect:")){
-			
-			
-			response.sendRedirect(view.substring("redirect:".length()));
-		}else{
-			//mav 객체의 model 정보를 화면에 사용할 수 있도록 
-			// 공유 하는 작업 필요함
-			Map<String,Object> model = mav.getModel();
-			Set<String> keys = model.keySet();
-			
-			for(String key : keys){
-				request.setAttribute(key, model.get(key));
+		try{
+			ModelAndView mav = controller.execute(request,response);
+			view = mav.getView();
+			if(view.startsWith("redirect:")){
+				
+				
+				response.sendRedirect(view.substring("redirect:".length()));
+			}else{
+				//mav 객체의 model 정보를 화면에 사용할 수 있도록 
+				// 공유 하는 작업 필요함
+				Map<String,Object> model = mav.getModel();
+				Set<String> keys = model.keySet();
+				
+				for(String key : keys){
+					request.setAttribute(key, model.get(key));
+					
+				}
+				
+				RequestDispatcher rd = request.getRequestDispatcher(view);
+				rd.forward(request, response);
 				
 			}
-			
-			RequestDispatcher rd = request.getRequestDispatcher(view);
-			rd.forward(request, response);
-			
+		}catch (Exception e){
+			throw new ServletException(e);
 		}
 		
 	}

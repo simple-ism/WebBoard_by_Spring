@@ -9,6 +9,11 @@ public class ModelAndView {
 	//화면페이지에서 사용할 공유 데이터
 	private Map<String,Object> model = new HashMap<>();
 	
+	public ModelAndView(){}
+	public ModelAndView(String view){
+		this.view = view;
+	}
+	
 	public void addAttribute(String key, Object value){
 		model.put(key, value);
 	}

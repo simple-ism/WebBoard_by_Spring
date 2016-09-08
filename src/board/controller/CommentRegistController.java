@@ -6,17 +6,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.BoardDAO;
 import board.Comment;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
 
 
 public class CommentRegistController implements Controller {
-
+	private BoardService service;
+	
+	public CommentRegistController(){
+		this.service = new BoardServiceImpl();
+	}
 	
 	public ModelAndView execute(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		int no = Integer.parseInt(request.getParameter("no"));
 		
@@ -26,15 +31,8 @@ public class CommentRegistController implements Controller {
 		comment.setContent(request.getParameter("content"));
 		comment.setId(request.getParameter("id"));
 		
-		// 게시물 저장 처리 부탁..
-		BoardDAO dao = new BoardDAO();
-		dao.insertComment(comment);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("redirect:detail.do?no=" + no);
-				
-		
-		return mav;
+		service.commentRegist(comment);
+		return new ModelAndView("redirect:detail.do?no=" + no);
 	
 	}
 }

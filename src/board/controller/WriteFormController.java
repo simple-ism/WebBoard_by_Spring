@@ -17,11 +17,7 @@ public class WriteFormController implements Controller {
 	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("redirect:writeForm.jsp");
-		
-		return mav;
+		return new ModelAndView("redirect:writeForm.jsp");
 	}
 }
 

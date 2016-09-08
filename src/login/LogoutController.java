@@ -23,10 +23,8 @@ public class LogoutController implements Controller {
 		
 		// pageContext.request.contextPath
 //		response.sendRedirect(request.getContextPath() + "/index.jsp");
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("redirect:"+request.getContextPath()+"/index.jsp");
-		return mav;
+
+		return new ModelAndView("redirect:"+request.getContextPath()+"/index.jsp");
 	}
 }
 

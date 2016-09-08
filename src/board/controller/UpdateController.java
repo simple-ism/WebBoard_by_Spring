@@ -8,15 +8,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.Board;
 import board.BoardDAO;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
 
 
 public class UpdateController implements Controller {
-
+	BoardService service;
 	
+	
+	
+	public UpdateController() {
+		service = new BoardServiceImpl();
+	}
+
+
+
 	public ModelAndView execute(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// 필터 적용함
 //		request.setCharacterEncoding("utf-8");
@@ -27,14 +37,9 @@ public class UpdateController implements Controller {
 		board.setWriter(request.getParameter("writer"));
 		board.setContent(request.getParameter("content"));
 
-		BoardDAO dao = new BoardDAO();
-		dao.updateBoard(board);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setView("redirect:list.do");
-		
-		
-		return mav;
+		service.update(board);
+			
+		return new ModelAndView("redirect:list.do");
 	}
 }
 
