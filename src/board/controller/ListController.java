@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.Board;
 import board.BoardDAO;
+import framework.Controller;
 
 
-public class ListController  {
+public class ListController implements Controller  {
 
 	
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

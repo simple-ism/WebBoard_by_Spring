@@ -32,6 +32,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.controller.DeleteController;
+import board.controller.DetailController;
 import board.controller.ListController;
 
 
@@ -58,14 +60,34 @@ public class DispatcherServlet extends HttpServlet{
 		System.out.println("requestUri : " + requestUri);
 		
 		String view="";
+		Controller controller = null;
 		switch(requestUri){
 		case "/board/list.do":
-				ListController list = new ListController();
-				view = list.execute(request, response);
+			controller  = new ListController();
+				
+			break;
+		
+		case "/board/detail.do":
+			controller  = new DetailController();
+				break;
+		case "/board/delete.do":
+			controller  = new DeleteController();
 			break;
 		}
-		RequestDispatcher rd = request.getRequestDispatcher(view);
-		rd.forward(request, response);
+		if(controller == null){
+			throw new ServletException("요청하신 URL이 존재하지 않습니다.");
+		}
+		view = controller.execute(request,response);
+		
+		if(view.startsWith("redirect:")){
+			//view-> redirect:list.do
+			response.sendRedirect(view.substring("redirect:".length()));
+		}else{
+			RequestDispatcher rd = request.getRequestDispatcher(view);
+			rd.forward(request, response);
+			
+		}
+		
 	}
 	
 }

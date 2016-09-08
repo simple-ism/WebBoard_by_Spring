@@ -78,7 +78,7 @@
 					  </td>
 					  <td>
 					  	  <a href="commentDelete?commentNo=${comment.commentNo}&no=${comment.no}">삭제</a>	
-					  	  <a href="detail?commentNo=${comment.commentNo}&no=${comment.no}">수정</a>	
+					  	  <a href="detail.do?commentNo=${comment.commentNo}&no=${comment.no}">수정</a>	
 					  </td>
 					 </tr>
 			 	</c:otherwise>

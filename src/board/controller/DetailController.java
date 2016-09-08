@@ -14,13 +14,13 @@ import board.Board;
 import board.BoardDAO;
 import board.BoardFile;
 import board.Comment;
+import framework.Controller;
 
-@WebServlet("/board/detail")
-public class DetailController extends HttpServlet {
 
-	@Override
-	public void doGet(
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+public class DetailController implements Controller {
+
+	
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int findNo = Integer.parseInt(request.getParameter("no"));
 		try {
 			request.setAttribute(
@@ -44,8 +44,8 @@ public class DetailController extends HttpServlet {
 		List<Comment> commentList = dao.selectCommentByNo(findNo);
 		request.setAttribute("commentList", commentList);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("detail.jsp");
-		rd.forward(request, response);
+		return "detail.jsp";
+		
 	}
 	
 }

@@ -30,7 +30,7 @@ public class CommentUpdateController extends HttpServlet {
 		BoardDAO dao = new BoardDAO();
 		dao.updateComment(comment);
 		
-		response.sendRedirect("detail?no=" + no);
+		response.sendRedirect("detail.do?no=" + no);
 	}
 }
 

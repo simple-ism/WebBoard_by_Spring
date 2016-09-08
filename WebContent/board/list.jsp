@@ -33,7 +33,7 @@
 		<tr>
 		  <td><c:out value="${board.no}" /></td>
 		  <td><c:out value="${board.writer}" /></td>
-		  <td><a href='detail?no=<c:out value="${board.no}" />'><c:out value="${board.title}" /></a></td>
+		  <td><a href='detail.do?no=<c:out value="${board.no}" />'><c:out value="${board.title}" /></a></td>
 		  <td><fmt:formatDate var="regDate" value="${board.regDate}" pattern="yyyy-MM-dd" />
 		      <c:out value="${regDate}" />
 		  </td>

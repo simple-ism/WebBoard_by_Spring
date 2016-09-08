@@ -27,7 +27,7 @@ public class CommentDeleteController extends HttpServlet {
 		BoardDAO dao = new BoardDAO();
 		dao.deleteComment(commentNo);
 		
-		response.sendRedirect("detail?no=" + no);
+		response.sendRedirect("detail.do?no=" + no);
 	}
 }
 
