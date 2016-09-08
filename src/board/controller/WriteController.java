@@ -21,19 +21,14 @@ import framework.Controller;
 import framework.ModelAndView;
 import util.BitFileRenamePolicy;
 
-
 public class WriteController implements Controller {
-	BoardService service;
-	
-	
+
+	private BoardService service;
 	
 	public WriteController() {
-		service = new BoardServiceImpl();
+		this.service = new BoardServiceImpl();
 	}
-
-
-
-	@Override
+	
 	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -63,34 +58,22 @@ public class WriteController implements Controller {
 		board.setWriter(mRequest.getParameter("writer"));
 		board.setContent(mRequest.getParameter("content"));
 		
-		
-		int no = service.writeBoard(board);
-		
-		/*
-			no number(6) not null,
-			ori_file_name varchar2(200) not null,
-			real_file_name varchar2(200) not null,
-			file_path varchar2(100) not null,
-			file_size number not null
-		 */
+		// 게시물 저장 처리 부탁..
 		File file = mRequest.getFile("attachFile");
+		BoardFile boardFile = null;
 		if (file != null) {
 			String oriFileName = mRequest.getOriginalFileName("attachFile");
 			String realFileName = mRequest.getFilesystemName("attachFile");
 			long fileSize = file.length();
-			
-			BoardFile boardFile = new BoardFile();
-			boardFile.setNo(no);
+			boardFile = new BoardFile();
 			boardFile.setOriFileName(oriFileName);
 			boardFile.setRealFileName(realFileName);
 			boardFile.setFilePath(datePath);
 			boardFile.setFileSize(fileSize);
-			
-			service.writeBoardFile(boardFile);
 		}
-			
-		return new ModelAndView("redirect:list.do");
+		service.writeBoard(board, boardFile);
 		
+		return new ModelAndView("redirect:list.do");
 	}
 }
 

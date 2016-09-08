@@ -1,6 +1,7 @@
 package board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import board.Board;
 import board.BoardFile;
@@ -18,19 +19,17 @@ public interface BoardService {
 	
 	public void delete(int no) throws Exception;
 	
-	public Board detailBoard (int findNo) throws Exception;
+	public Map<String,Object> detailBoard (int findNo) throws Exception;
 
-	public BoardFile detailBoardFile (int findNo) throws Exception;
 	
-	public List<Comment> detailComment (int findNo) throws Exception;
 	
 	public void update(Board board) throws Exception;
 	
 	public Board updateForm(int no) throws Exception;
 	
-	public int writeBoard(Board board) throws Exception;
+	public void writeBoard(Board board,BoardFile boardFile) throws Exception;
 	
-	public void writeBoardFile(BoardFile boardFile) throws Exception;
+	
 	
 	
 	

@@ -1,6 +1,8 @@
 package board.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import board.Board;
 import board.BoardDAO;
@@ -42,21 +44,20 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 	@Override
-	public Board detailBoard(int findNo) throws Exception {
+	public Map<String,Object> detailBoard(int findNo) throws Exception {
 		
 		Board board = dao.selectBoardByNo(findNo);
-		return board;
-	}
-	@Override
-	public BoardFile detailBoardFile(int findNo) throws Exception {
 		BoardFile file = dao.selectBoardFileByNo(findNo);
-		return file;
-	}
-	@Override
-	public List<Comment> detailComment(int findNo) throws Exception {
 		List<Comment> commentList = dao.selectCommentByNo(findNo);
-		return commentList;
+		Map<String,Object> map = new HashMap<>();
+		map.put("board", board);
+		map.put("file", file);
+		map.put("commentList", commentList);
+		
+		return map;
 	}
+	
+	
 	@Override
 	public void update(Board board) throws Exception {
 		dao.updateBoard(board);
@@ -67,20 +68,18 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 	@Override
-	public int writeBoard(Board board) throws Exception {
-		int no = dao.insertBoard(board);
-		return no;
-	}
-	@Override
-	public void writeBoardFile(BoardFile boardFile) throws Exception {
-		dao.insertBoardFile(boardFile);
+	public void writeBoard(Board board,BoardFile boardFile) throws Exception {
 		
+		int no = dao.insertBoard(board);
+		if (boardFile != null) {
+			boardFile.setNo(no);
+			dao.insertBoardFile(boardFile);
+	
+		}		
 	}
-	
-	
-	
-	
-	
-	
-	
 }
+	
+	
+	
+	
+

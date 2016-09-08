@@ -7,3 +7,9 @@ create table t86_comment (
 	id varchar2(20) not null,
 	reg_date date default sysdate
 );
+
+select * from t86_board_file;
+create sequence s86_board_file_no;
+
+
+SELECT s86_board_file_no.NEXTVAL  FROM DUAL;

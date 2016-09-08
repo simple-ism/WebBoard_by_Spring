@@ -1,14 +1,12 @@
 package board.controller;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.Board;
-import board.BoardDAO;
 import board.BoardFile;
 import board.Comment;
 import board.service.BoardService;
@@ -39,9 +37,12 @@ public class DetailController implements Controller {
 		
 		
 				
-		Board board = service.detailBoard(findNo);
-		BoardFile file =service.detailBoardFile(findNo);
-		List<Comment> commentList = service.detailComment(findNo);
+		Map<String,Object> map = service.detailBoard(findNo);
+		
+		Board board = (Board)map.get("board");
+		BoardFile file =(BoardFile)map.get("file");
+		@SuppressWarnings("unchecked")
+		List<Comment> commentList = (List<Comment>) map.get("commentList");
 		
 	
 
