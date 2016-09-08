@@ -31,7 +31,7 @@
 		 <hr />
 		 <a href='updateForm?no=<c:out value="${param.no}" />'>수정</a>
 		 <a href='delete?no=<c:out value="${param.no}" />'>삭제</a>
-		<a href='list'>목록</a>
+		<a href='list.do'>목록</a>
 		
 		<div id="comment">
 			<form method="post" action="commentRegist">

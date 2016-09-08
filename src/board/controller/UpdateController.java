@@ -32,7 +32,7 @@ public class UpdateController extends HttpServlet {
 		BoardDAO dao = new BoardDAO();
 		dao.updateBoard(board);
 		
-		response.sendRedirect("list");
+		response.sendRedirect("list.do");
 	}
 }
 

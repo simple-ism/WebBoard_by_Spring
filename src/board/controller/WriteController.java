@@ -78,7 +78,7 @@ public class WriteController extends HttpServlet {
 			
 			dao.insertBoardFile(boardFile);
 		}
-		response.sendRedirect("list");
+		response.sendRedirect("list.do");
 	}
 }
 

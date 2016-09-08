@@ -10,7 +10,7 @@
 		<li><a href="${pageContext.request.contextPath}/login/logout">로그아웃</a></li>	
 	</c:otherwise>
 </c:choose>    
-	<li><a href="${pageContext.request.contextPath}/board/list">자유게시판</a></li>	
+	<li><a href="${pageContext.request.contextPath}/board/list.do">자유게시판</a></li>	
 </ul>
 <%--
    로그인 상태의 메뉴

@@ -22,7 +22,7 @@ public class DeleteController extends HttpServlet {
 		int no = Integer.parseInt(request.getParameter("no"));
 		BoardDAO dao = new BoardDAO();
 		dao.deleteBoard(no);
-		response.sendRedirect("list");
+		response.sendRedirect("list.do");
 	}
 }
 

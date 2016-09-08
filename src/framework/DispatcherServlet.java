@@ -25,11 +25,14 @@ package framework;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import board.controller.ListController;
 
 
 
@@ -39,16 +42,30 @@ public class DispatcherServlet extends HttpServlet{
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//현재 프로직트 경로 찾기
 		ServletContext sc = request.getServletContext();
+		/*
 		String contextPath = sc.getContextPath();
 		
 		System.out.println("contextPath : " + contextPath);
-		
-		contextPath = request.getContextPath();
+		*/
+		String contextPath = request.getContextPath();
 				System.out.println("contextPath : " + contextPath);
 				
 		String requestUri = request.getRequestURI();
+//		System.out.println("requestUri : " + requestUri);
+		
+		
+		requestUri = requestUri.substring(contextPath.length());
 		System.out.println("requestUri : " + requestUri);
 		
+		String view="";
+		switch(requestUri){
+		case "/board/list.do":
+				ListController list = new ListController();
+				view = list.execute(request, response);
+			break;
+		}
+		RequestDispatcher rd = request.getRequestDispatcher(view);
+		rd.forward(request, response);
 	}
 	
 }
