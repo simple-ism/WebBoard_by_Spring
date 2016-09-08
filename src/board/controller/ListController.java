@@ -13,17 +13,22 @@ import javax.servlet.http.HttpServletResponse;
 import board.Board;
 import board.BoardDAO;
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class ListController implements Controller  {
 
 	
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BoardDAO dao = new BoardDAO();
 		List<Board> list = dao.selectBoard();
 		
-		request.setAttribute("list", list);
-		return "list.jsp";
+		
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setView("list.jsp");
+		mav.addAttribute("list", list);
+		return mav;
 	
 		
 	}

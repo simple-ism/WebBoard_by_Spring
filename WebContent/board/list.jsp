@@ -45,7 +45,7 @@
 		 </tr>
 		 </c:if>
 		 </table>
-		 <a href='writeForm'>글쓰기</a>
+		 <a href='writeForm.do'>글쓰기</a>
 	</div>
 	<div class="footer">
 		<%@ include file="/include/bottom.jsp" %>

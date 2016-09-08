@@ -10,17 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import framework.Controller;
+import framework.ModelAndView;
 
 @WebServlet("/login/loginForm")
 public class LoginFormController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) 
 					throws ServletException, IOException {
 		
-				
-		return "loginForm.jsp";
+		ModelAndView mav = new ModelAndView();
+		mav.setView("loginForm.jsp");
+		return mav;
 			
 	}
 }

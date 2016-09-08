@@ -3,10 +3,7 @@ package board.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,15 +12,17 @@ import board.BoardDAO;
 import board.BoardFile;
 import board.Comment;
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class DetailController implements Controller {
 
 	
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView();
 		int findNo = Integer.parseInt(request.getParameter("no"));
 		try {
-			request.setAttribute(
+			mav.addAttribute(
 					"commentNo", Integer.parseInt(
 							request.getParameter("commentNo")));	
 		} catch (NumberFormatException e) { }
@@ -34,17 +33,22 @@ public class DetailController implements Controller {
 		// 게시물과 연관된 파일 정보 추출
 		BoardFile file = dao.selectBoardFileByNo(findNo);
 		
-		request.setAttribute("board", board);
-		// 파일 정보 공유
-		request.setAttribute("file", file);
-		// 파일 정보 공유
-		request.setAttribute("file", file);
+		
+		
+	
 		
 		// 댓글 목록 정보 공유
 		List<Comment> commentList = dao.selectCommentByNo(findNo);
-		request.setAttribute("commentList", commentList);
+
+//	f
 		
-		return "detail.jsp";
+		mav.setView("detail.jsp");
+		mav.addAttribute("board", board);
+		mav.addAttribute("file", file);
+		mav.addAttribute("commentList", commentList);
+		
+		
+		return mav;
 		
 	}
 	

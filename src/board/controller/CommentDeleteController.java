@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class CommentDeleteController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int no = Integer.parseInt(request.getParameter("no"));
@@ -23,7 +24,11 @@ public class CommentDeleteController implements Controller {
 		BoardDAO dao = new BoardDAO();
 		dao.deleteComment(commentNo);
 		
-		return "redirect:detail.do?no="+ no;
+		ModelAndView mav = new ModelAndView();
+		mav.setView("redirect:detail.do?no="+ no);
+		
+		
+		return mav;
 		
 	}
 }

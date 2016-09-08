@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class LogoutController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) 
 					throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -23,7 +24,9 @@ public class LogoutController implements Controller {
 		// pageContext.request.contextPath
 //		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		
-		return "redirect:"+request.getContextPath()+"/index.jsp";
+		ModelAndView mav = new ModelAndView();
+		mav.setView("redirect:"+request.getContextPath()+"/index.jsp");
+		return mav;
 	}
 }
 

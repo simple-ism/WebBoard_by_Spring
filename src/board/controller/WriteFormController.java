@@ -8,18 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class WriteFormController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
+		ModelAndView mav = new ModelAndView();
+		mav.setView("redirect:writeForm.jsp");
 		
-		
-		return "redirect:writeForm.jsp";
+		return mav;
 	}
 }
 

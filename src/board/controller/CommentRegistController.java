@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import board.BoardDAO;
 import board.Comment;
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class CommentRegistController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int no = Integer.parseInt(request.getParameter("no"));
@@ -29,7 +30,11 @@ public class CommentRegistController implements Controller {
 		BoardDAO dao = new BoardDAO();
 		dao.insertComment(comment);
 		
-		return "detail.do?no=" + no;
+		ModelAndView mav = new ModelAndView();
+		mav.setView("redirect:detail.do?no=" + no);
+				
+		
+		return mav;
 	
 	}
 }

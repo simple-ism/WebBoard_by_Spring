@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import board.BoardDAO;
 import board.Comment;
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class CommentUpdateController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
@@ -29,7 +30,14 @@ public class CommentUpdateController implements Controller {
 		BoardDAO dao = new BoardDAO();
 		dao.updateComment(comment);
 		
-		return "redirect:detail.do?no=" + no;
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setView("redirect:detail.do?no=" + no);		
+		
+		
+		return mav;
+				
+	
 		
 		}
 }

@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import board.Board;
 import board.BoardDAO;
 import framework.Controller;
+import framework.ModelAndView;
 
 
 public class UpdateController implements Controller {
 
 	
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 필터 적용함
@@ -29,8 +30,11 @@ public class UpdateController implements Controller {
 		BoardDAO dao = new BoardDAO();
 		dao.updateBoard(board);
 		
-		response.sendRedirect("list.do");
-		return "redirect:list.do";
+		ModelAndView mav = new ModelAndView();
+		mav.setView("redirect:list.do");
+		
+		
+		return mav;
 	}
 }
 

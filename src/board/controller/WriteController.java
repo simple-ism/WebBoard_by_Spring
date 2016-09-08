@@ -16,13 +16,14 @@ import board.Board;
 import board.BoardDAO;
 import board.BoardFile;
 import framework.Controller;
+import framework.ModelAndView;
 import util.BitFileRenamePolicy;
 
 
 public class WriteController implements Controller {
 
 	@Override
-	public String execute(
+	public ModelAndView execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext context = request.getServletContext();
@@ -77,8 +78,10 @@ public class WriteController implements Controller {
 			
 			dao.insertBoardFile(boardFile);
 		}
+		ModelAndView mav = new ModelAndView();
+		mav.setView("redirect:list.do");
 		
-		return "redirect:list.do";
+		return mav;
 		
 	}
 }
