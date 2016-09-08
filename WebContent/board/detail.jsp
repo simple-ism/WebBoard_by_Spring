@@ -29,12 +29,12 @@
 		 첨부파일 : 
 		 <a href="${pageContext.request.contextPath}/down?path=${file.filePath}&realName=${file.realFileName}&oriName=${file.oriFileName}">${file.oriFileName}</a>(${file.fileSize} byte)
 		 <hr />
-		 <a href='updateForm?no=<c:out value="${param.no}" />'>수정</a>
-		 <a href='delete?no=<c:out value="${param.no}" />'>삭제</a>
+		 <a href='updateForm.do?no=<c:out value="${param.no}" />'>수정</a>
+		 <a href='delete.do?no=<c:out value="${param.no}" />'>삭제</a>
 		<a href='list.do'>목록</a>
 		
 		<div id="comment">
-			<form method="post" action="commentRegist">
+			<form method="post" action="commentRegist.do">
 				<input type="hidden" name="no" value="${board.no}" />	
 				<input type="hidden" name="id" value="${user.id}" />	
 				<table width="70%">
@@ -47,7 +47,7 @@
 			</form>
 		</div>
 		
-		<form action="commentUpdate" method="post">
+		<form action="commentUpdate.do" method="post">
 			<input type="hidden" name="no" value="${board.no}" />
 			<input type="hidden" name="commentNo" value="${commentNo}" />
 		<div id="commentList">
@@ -77,7 +77,7 @@
 					      <c:out value="${regDate}" />
 					  </td>
 					  <td>
-					  	  <a href="commentDelete?commentNo=${comment.commentNo}&no=${comment.no}">삭제</a>	
+					  	  <a href="commentDelete.do?commentNo=${comment.commentNo}&no=${comment.no}">삭제</a>	
 					  	  <a href="detail.do?commentNo=${comment.commentNo}&no=${comment.no}">수정</a>	
 					  </td>
 					 </tr>

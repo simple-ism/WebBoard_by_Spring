@@ -3,19 +3,18 @@ package login;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import framework.Controller;
 import member.Member;
 
-@WebServlet("/login/login")
-public class LoginController extends HttpServlet {
 
-	@Override
-	public void doPost(
+public class LoginController implements Controller {
+
+	
+	public String execute(
 			HttpServletRequest request, HttpServletResponse response) 
 					throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -37,12 +36,14 @@ public class LoginController extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("user", m);
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
+//			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			return "redirect:"+request.getContextPath()+"/index.jsp";
 		}
 		// 로그인 실패
 		// 로그인 폼 페이지로 이동
 		else {
-			response.sendRedirect("loginForm");
+			return "redirect:loginForm.do";
+			
 		}
 	}
 }

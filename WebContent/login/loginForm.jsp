@@ -14,7 +14,7 @@
 	<div class="content">
 		<h2>로그인</h2>
 		<hr>
-		<form action="${pageContext.request.contextPath}/login/login" 
+		<form action="${pageContext.request.contextPath}/login/login.do" 
 		      method="post">
 			id : <input type="text" name="id" /><br>
 			pw : <input type="password" name="pass" /><br>

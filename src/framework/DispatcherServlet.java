@@ -32,9 +32,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.controller.CommentDeleteController;
+import board.controller.CommentRegistController;
 import board.controller.DeleteController;
 import board.controller.DetailController;
 import board.controller.ListController;
+import board.controller.UpdateController;
+import board.controller.UpdateFormController;
+import board.controller.WriteController;
+import board.controller.WriteFormController;
+import login.LoginController;
+import login.LoginFormController;
+import login.LogoutController;
 
 
 
@@ -73,6 +82,33 @@ public class DispatcherServlet extends HttpServlet{
 		case "/board/delete.do":
 			controller  = new DeleteController();
 			break;
+		case "/board/update.do":
+			controller  = new UpdateController();
+			break;
+		case "/board/updateForm.do":
+			controller  = new UpdateFormController();
+			break;
+		case "/board/write.do":
+			controller  = new WriteController();
+			break;
+		case "/board/writeForm.do":
+			controller  = new WriteFormController();
+			break;
+		case "/board/commentDelete.do":
+			controller  = new CommentDeleteController();
+			break;
+		case "/board/commentRegist.do":
+			controller  = new CommentRegistController();
+			break;
+		case "/login/logout.do":
+			controller  = new LogoutController();
+			break;
+		case "/login/login.do":
+			controller  = new LoginController();
+			break;
+		case "/login/loginForm.do":
+			controller  = new LoginFormController();
+			break;
 		}
 		if(controller == null){
 			throw new ServletException("요청하신 URL이 존재하지 않습니다.");
@@ -81,8 +117,10 @@ public class DispatcherServlet extends HttpServlet{
 		
 		if(view.startsWith("redirect:")){
 			//view-> redirect:list.do
+			
 			response.sendRedirect(view.substring("redirect:".length()));
 		}else{
+			System.out.println("들어온거"+view);
 			RequestDispatcher rd = request.getRequestDispatcher(view);
 			rd.forward(request, response);
 			

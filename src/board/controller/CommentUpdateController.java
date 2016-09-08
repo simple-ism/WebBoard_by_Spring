@@ -3,19 +3,18 @@ package board.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import board.Comment;
+import framework.Controller;
 
-@WebServlet("/board/commentUpdate")
-public class CommentUpdateController extends HttpServlet {
 
-	@Override
-	public void doPost(
+public class CommentUpdateController implements Controller {
+
+	
+	public String execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
@@ -30,8 +29,9 @@ public class CommentUpdateController extends HttpServlet {
 		BoardDAO dao = new BoardDAO();
 		dao.updateComment(comment);
 		
-		response.sendRedirect("detail.do?no=" + no);
-	}
+		return "redirect:detail.do?no=" + no;
+		
+		}
 }
 
 

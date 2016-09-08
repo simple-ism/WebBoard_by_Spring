@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import board.BoardDAO;
 import framework.Controller;
 
-@WebServlet("/board/delete.do")
+
 public class DeleteController implements Controller {
 
 	

@@ -7,8 +7,6 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,13 +15,14 @@ import com.oreilly.servlet.MultipartRequest;
 import board.Board;
 import board.BoardDAO;
 import board.BoardFile;
+import framework.Controller;
 import util.BitFileRenamePolicy;
 
-@WebServlet("/board/write")
-public class WriteController extends HttpServlet {
+
+public class WriteController implements Controller {
 
 	@Override
-	public void doPost(
+	public String execute(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext context = request.getServletContext();
@@ -78,7 +77,9 @@ public class WriteController extends HttpServlet {
 			
 			dao.insertBoardFile(boardFile);
 		}
-		response.sendRedirect("list.do");
+		
+		return "redirect:list.do";
+		
 	}
 }
 

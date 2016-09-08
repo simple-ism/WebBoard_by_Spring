@@ -14,7 +14,7 @@
 		 <hr />
 		 <h2>자바 네트워크 게시판</h2>
 		 <hr />
-		 <form method='post' action='write'
+		 <form method='post' action='write.do'
 		       encType="multipart/form-data">
 		    제목 : <input type='text' name='title' size='70' /><br>
 		    글쓴이 : <input type='text' name='writer' size='30' /><br>

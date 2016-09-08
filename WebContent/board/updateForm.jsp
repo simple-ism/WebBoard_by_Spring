@@ -17,7 +17,7 @@
 		 <hr />
 		 <h2>자바 네트워크 게시판</h2>
 		 <hr />
-		 <form method='post' action='update'>
+		 <form method='post' action='update.do'>
 		   <input type='hidden' name='no' value='<c:out value="${param.no}" />' />
 		    제목 : <input type='text' name='title' size='70' value='<c:out value="${board.title}" />' /><br>
 		    글쓴이 : <input type='text' name='writer' size='30' readonly value='<c:out value="${board.writer}" />' /><br>
