@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import board.controller.CommentDeleteController;
+import board.controller.CommentListController;
 import board.controller.CommentRegistController;
 import board.controller.CommentUpdateController;
 import board.controller.DeleteController;
@@ -32,6 +33,7 @@ public class URLHandleMapping {
 		mappings.put("/board/commentDelete.do", new CommentDeleteController());
 		mappings.put("/board/commentRegist.do", new CommentRegistController());
 		mappings.put("/board/commentUpdate.do", new CommentUpdateController());
+		mappings.put("/board/commentList.do", new CommentListController());
 		mappings.put("/login/logout.do", new LogoutController());
 		mappings.put("/login/login.do", new LoginController());
 		mappings.put("/login/loginForm.do", new LoginFormController());

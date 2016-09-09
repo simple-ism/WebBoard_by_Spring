@@ -29,6 +29,8 @@ public interface BoardService {
 	
 	public void writeBoard(Board board,BoardFile boardFile) throws Exception;
 	
+	public List<Comment> listComment(int no) throws Exception;
+	
 	
 	
 	

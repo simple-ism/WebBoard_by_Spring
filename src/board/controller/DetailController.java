@@ -48,7 +48,7 @@ public class DetailController implements Controller {
 
 		mav.addAttribute("board", board);
 		mav.addAttribute("file", file);
-		mav.addAttribute("commentList", commentList);
+		
 		
 		
 		return mav;

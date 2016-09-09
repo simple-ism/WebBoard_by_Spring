@@ -6,6 +6,7 @@
 <html>
 <head>
   <meta charset='utf-8'>
+  <script src="../js/jquery-3.1.0.js"></script>
 </head>
 <body>
 <div class="container">
@@ -46,7 +47,9 @@
 				</table>
 			</form>
 		</div>
-		
+		<!--  댓글 목록 표시 -->
+		<div id="commentList"></div>
+		<!-- 
 		<form action="commentUpdate.do" method="post">
 			<input type="hidden" name="no" value="${board.no}" />
 			<input type="hidden" name="commentNo" value="${commentNo}" />
@@ -92,12 +95,29 @@
 		 </table>
 		</div>
 		</form>
+		 -->
 	</div>
 	<div class="footer">
 		<%@ include file="/include/bottom.jsp" %>
 	</div>
 </div>
-
+<script>
+	//댓글 목록 조회
+	function commentList(){
+		$.ajax({
+			url:"/LecBoard/board/commentList.do",
+			data: {no:"${board.no}"},
+			dataType :"json"
+		})
+		.done(makeCommentList);
+	}
+		function makeCommentList(result){
+			console.log("댓글 목록 생성 함수 호출됨..")
+			console.dir(result);
+		}
+	//상세 페이지 로딩시 댓글 목록 조회 ajax 호출
+	commentList();	
+</script>
 </body>
 </html>
 

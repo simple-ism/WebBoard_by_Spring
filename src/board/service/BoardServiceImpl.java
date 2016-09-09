@@ -46,13 +46,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Map<String,Object> detailBoard(int findNo) throws Exception {
 		
+		Map<String,Object> map = new HashMap<>();
+		
 		Board board = dao.selectBoardByNo(findNo);
 		BoardFile file = dao.selectBoardFileByNo(findNo);
-		List<Comment> commentList = dao.selectCommentByNo(findNo);
-		Map<String,Object> map = new HashMap<>();
 		map.put("board", board);
 		map.put("file", file);
-		map.put("commentList", commentList);
+		
 		
 		return map;
 	}
@@ -76,6 +76,11 @@ public class BoardServiceImpl implements BoardService {
 			dao.insertBoardFile(boardFile);
 	
 		}		
+	}
+	@Override
+	public List<Comment> listComment(int no) throws Exception {
+		
+		return dao.selectCommentByNo(no);
 	}
 }
 	

@@ -24,6 +24,7 @@
 package framework;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public class DispatcherServlet extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//현재 프로직트 경로 찾기
-		ServletContext sc = request.getServletContext();
+//		ServletContext sc = request.getServletContext();
 		/*
 		String contextPath = sc.getContextPath();
 		
@@ -82,6 +83,12 @@ public class DispatcherServlet extends HttpServlet{
 				
 				
 				response.sendRedirect(view.substring("redirect:".length()));
+			}else if(view.startsWith("ajax:")){
+								
+				response.setContentType("text/json); charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.println(view.substring("ajax:".length()));
+				out.close();
 			}else{
 				//mav 객체의 model 정보를 화면에 사용할 수 있도록 
 				// 공유 하는 작업 필요함
