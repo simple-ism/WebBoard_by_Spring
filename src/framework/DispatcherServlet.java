@@ -72,7 +72,7 @@ public class DispatcherServlet extends HttpServlet{
 //		
 		String view="";
 		Controller controller = mappings.getController(requestUri);
-		
+		System.out.println(controller);
 		if(controller == null){
 			throw new ServletException("요청하신 URL이 존재하지 않습니다.");
 		}
@@ -84,8 +84,8 @@ public class DispatcherServlet extends HttpServlet{
 				
 				response.sendRedirect(view.substring("redirect:".length()));
 			}else if(view.startsWith("ajax:")){
-								
-				response.setContentType("text/json); charset=utf-8");
+								System.out.println("들어옴");
+				response.setContentType("text/json; charset=utf-8");
 				PrintWriter out = response.getWriter();
 				out.println(view.substring("ajax:".length()));
 				out.close();

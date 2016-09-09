@@ -7,6 +7,12 @@
 <head>
   <meta charset='utf-8'>
   <script src="../js/jquery-3.1.0.js"></script>
+  <style type="text/css">
+  	#commentList {width:80%;}
+  	#commentList > div{width: 100%; margin-top:5px; padding: 3px; border: 1px solid #334455;}
+  	#commentList > div > span:nth-child(1) {width: 10%; border-right: 1px solid #112233; display: inline-block; font-weight: bold;}
+  	#commentList > div > span:nth-child(2) {width: 60%;  display: inline-block; }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -35,9 +41,7 @@
 		<a href='list.do'>목록</a>
 		
 		<div id="comment">
-			<form method="post" action="commentRegist.do">
-				<input type="hidden" name="no" value="${board.no}" />	
-				<input type="hidden" name="id" value="${user.id}" />	
+			<form id="crForm" method="post" action="commentRegist.do">
 				<table width="70%">
 				<tr>
 					<td><c:out value="${user.id}" /></td>
@@ -49,53 +53,13 @@
 		</div>
 		<!--  댓글 목록 표시 -->
 		<div id="commentList"></div>
-		<!-- 
-		<form action="commentUpdate.do" method="post">
-			<input type="hidden" name="no" value="${board.no}" />
-			<input type="hidden" name="commentNo" value="${commentNo}" />
-		<div id="commentList">
-			
-		  <table width='80%' border='1'>
-		  <tr>
-			<c:forEach var="comment" items="${commentList}">
-			<c:choose>
-		  		<c:when test="${commentNo eq comment.commentNo}">	
-					<tr>
-					  <td><c:out value="${comment.id}" /></td>
-					  <td>
-					  	<textarea name="content" rows="2" cols="60"><c:out value="${comment.content}" /></textarea>
-					  </td>
-					  <td colspan="2">
-					  	  <input type="submit" value="수정" />	
-					  </td>
-					 </tr>
-			 	</c:when>
-			 	<c:otherwise>
-					<tr>
-					  <td><c:out value="${comment.id}" /></td>
-					  <td>
-					  		<c:out value="${comment.content}" /></td>
-					  <td><fmt:formatDate var="regDate" value="${comment.regDate}" 
-					                      pattern="yyyy-MM-dd HH:mm:ss" />
-					      <c:out value="${regDate}" />
-					  </td>
-					  <td>
-					  	  <a href="commentDelete.do?commentNo=${comment.commentNo}&no=${comment.no}">삭제</a>	
-					  	  <a href="detail.do?commentNo=${comment.commentNo}&no=${comment.no}">수정</a>	
-					  </td>
-					 </tr>
-			 	</c:otherwise>
-			 </c:choose>	
-			 </c:forEach>
-			 <c:if test="${empty commentList}">
-			 <tr>
-			    <td colspan='4'>댓글이 존재하지 않습니다.</td>
-			 </tr>
-		 	</c:if>
-		 </table>
+		<!--  댓글 수정 폼 -->
+		<div id="commentUpdateDiv" >
+			<input type="hidden" name="commentNo"/>
+			<span></span>
+			<textarea name="content" rows="2" cols="60"></textarea>
+			<button>수정</button>
 		</div>
-		</form>
-		 -->
 	</div>
 	<div class="footer">
 		<%@ include file="/include/bottom.jsp" %>
@@ -114,9 +78,98 @@
 		function makeCommentList(result){
 			console.log("댓글 목록 생성 함수 호출됨..")
 			console.dir(result);
+			
+			var html="";
+			for(var i = 0; i<result.length; i++){
+				var comment = result[i];
+				html += "<div id='comment"+comment.commentNo+"'>";
+				html += " <span>"+comment.id+"</span>";
+				html += " <span>"+comment.content+"</span>";
+				var date = new Date(comment.regDate);
+				var time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes() +":"+date.getSeconds();
+				html += " <span>"+ time + "</span>";
+				html += " <span>";
+				html += "    <a href='#1' onclick='commentUpdate("+comment.commentNo+");'>수정</a>";
+				html += "    <a href='#1' onclick='commentDelete("+comment.commentNo+");'>삭제</a>";
+				html += "</span>";
+				html += "</div>";
+			}
+			if(result.length==0){
+				html += "<div>댓글이 존재하지 않습니다.</div>";
+			}
+			$("#commentList").html(html);
+			
 		}
 	//상세 페이지 로딩시 댓글 목록 조회 ajax 호출
 	commentList();	
+	
+	
+	//댓글 등록처리
+	$("#crForm").submit(function (){
+		var f = document.querySelector("#crForm");
+			
+		$.ajax({
+			url:"/LecBoard/board/commentRegist.do",
+			type: "POST",
+			data: {no:"${board.no}", content: f.content.value,id:"${user.id}"},
+			dataType :"json"
+		})
+		.done(function (result){
+			f.content.value="";
+			makeCommentList(result);
+		});
+		//서브밋 이벤트 중지시킴
+		return false;
+	});
+	function commentDelete(commentNo){
+		$.ajax({
+			url: "/LecBoard/board/commentDelete.do",
+			data: {no:"${board.no}",commentNo: commentNo},
+			dataType: "json"
+		})
+		.done(makeCommentList);
+	}
+	function commentUpdate(commentNo){
+		//기존 숨겨진 div 들을 화면에 보이도록 처리
+		$("#commentList > div[id^=comment]").show();
+		var $cDiv  = $("#comment"+ commentNo);
+		console.dir($cDiv)
+		$("#commentUpdateDiv > input").val(commentNo);
+		$("#commentUpdateDiv > span:eq(0)").html($cDiv.find("span:eq(0)").html());
+		$("#commentUpdateDiv > textarea").val($cDiv.find("span:eq(1)").html());
+		$cDiv.after($("#commentUpdateDiv").show());
+		$cDiv.hide();
+	};
+	//댓글 수정 ajax 처리
+	$("#commentUpdateDiv > button").click(function (){
+		var $parent = $(this).parent();
+		var content = $parent.find("textarea").val();
+		var commentNo = $parent.find("input").val();
+		console.log(content, commentNo);
+		$.ajax({
+			url: "/LecBoard/board/commentUpdate.do",
+			data: {commentNo: commentNo, content: content},
+			
+		})
+		.done(function(){
+			//수정폼 내용 초기화하기
+			$parent.find("span").html("");
+			$parent.find("textarea").val("");
+				//commentNo
+			$parent.find("input").val("");
+			
+			//수정된 내용 업데이트 하기(화면)
+			$("#comment"+commentNo + "> span:eq(1)").html(content);
+			$("#comment"+commentNo).show();
+			$("#commentList").after(($parent).hide());
+			
+		});
+		
+	});
+	
+	//화면에서 숨김
+	$("#commentUpdateDiv").hide();
+	
 </script>
 </body>
 </html>

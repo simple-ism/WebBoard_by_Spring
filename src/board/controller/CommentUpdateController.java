@@ -29,7 +29,7 @@ public class CommentUpdateController implements Controller {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
-		int no = Integer.parseInt(request.getParameter("no"));
+	
 		
 		// 게시판과 파일 테이블에 저장할 글번호를 조회
 		Comment comment = new Comment();
@@ -38,7 +38,7 @@ public class CommentUpdateController implements Controller {
 		
 		service.commentUpdate(comment);
 		
-		return new ModelAndView("redirect:detail.do?no=" + no);
+		return new ModelAndView("ajax:{}");
 				
 	
 		

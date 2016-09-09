@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import board.Comment;
 import board.service.BoardService;
 import board.service.BoardServiceImpl;
@@ -32,7 +34,13 @@ public class CommentRegistController implements Controller {
 		comment.setId(request.getParameter("id"));
 		
 		service.commentRegist(comment);
-		return new ModelAndView("redirect:detail.do?no=" + no);
+		
+		
+		return new ModelAndView(
+				"ajax:"+ new Gson().toJson(
+						service.listComment(no)
+				)
+		);
 	
 	}
 }

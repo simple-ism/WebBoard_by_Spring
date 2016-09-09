@@ -9,6 +9,7 @@ create table t86_comment (
 );
 
 select * from t86_board_file;
+select * from t86_comment;
 create sequence s86_board_file_no;
 
 
