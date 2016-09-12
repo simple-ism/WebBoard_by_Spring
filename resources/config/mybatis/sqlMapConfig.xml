@@ -8,9 +8,9 @@
 	
 	<!-- SQL의 결과를 담을 VO 객체들의 별칭을 설정하여 사용의 편의를 도모  -->
 	<typeAliases>
-		<typeAlias alias="board" type="board.Board" />
-		<typeAlias alias="boardFile" type="board.BoardFile" />
-		<typeAlias alias="comment" type="board.Comment" />
+		<typeAlias alias="board" type="kr.co.mlec.board.Board" />
+		<typeAlias alias="boardFile" type="kr.co.mlec.board.BoardFile" />
+		<typeAlias alias="comment" type="kr.co.mlec.board.Comment" />
 	</typeAliases>
 	
 	<environments default="development">

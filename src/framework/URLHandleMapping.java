@@ -1,47 +1,40 @@
 package framework;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import board.controller.CommentDeleteController;
-import board.controller.CommentListController;
-import board.controller.CommentRegistController;
-import board.controller.CommentUpdateController;
-import board.controller.DeleteController;
-import board.controller.DetailController;
-import board.controller.ListController;
-import board.controller.UpdateController;
-import board.controller.UpdateFormController;
-import board.controller.WriteController;
-import board.controller.WriteFormController;
-import login.LoginController;
-import login.LoginFormController;
-import login.LogoutController;
-
 public class URLHandleMapping {
-	private Map<String,Controller> mappings;
-	
-	public URLHandleMapping(){
+	private Map<String,CtrlAndMethod> mappings;
+	public URLHandleMapping(){}
+	public URLHandleMapping(String ctrlNames) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
 		mappings = new HashMap<>();
-		mappings.put("/board/list.do", new ListController());
-		mappings.put("/board/detail.do", new DetailController());
-		mappings.put("/board/delete.do", new DeleteController());
-		mappings.put("/board/update.do", new UpdateController());
-		mappings.put("/board/updateForm.do", new UpdateFormController());
-		mappings.put("/board/write.do", new WriteController());
-		mappings.put("/board/writeForm.do", new WriteFormController());
-		mappings.put("/board/commentDelete.do", new CommentDeleteController());
-		mappings.put("/board/commentRegist.do", new CommentRegistController());
-		mappings.put("/board/commentUpdate.do", new CommentUpdateController());
-		mappings.put("/board/commentList.do", new CommentListController());
-		mappings.put("/login/logout.do", new LogoutController());
-		mappings.put("/login/login.do", new LoginController());
-		mappings.put("/login/loginForm.do", new LoginFormController());
 		
-
+		/*
+		 * kr.co.mlec.board.controller.BoardController;
+		 * kr.co.mlec.board.controller.BoardController
+		 */
+		String[] ctrlList= ctrlNames.split(";");
+		for(String ctrlName : ctrlList){
+			
+			Class<?> clz = Class.forName(ctrlName.trim());
+			Object target = clz.newInstance();
+			
+			//clz안에 존재하는 모든 매서드를 추출한다.
+			Method[] mArr = clz.getDeclaredMethods();
+			// 반복을 진행하면서 매서드의 URI정보추출, 해당하는 객체와 실행 매서드정보를 맵에 저장
+			for(Method method : mArr){
+				RequestMapping rm = method.getAnnotation(RequestMapping.class);
+				if(rm==null) continue;
+				mappings.put(rm.value(), new CtrlAndMethod(target,method));
+				
+			}
+			
+		}
+			
 	}
 
-	public Controller getController(String requestUri) {
+	public CtrlAndMethod getCtrlAndMethod (String requestUri) {
 		
 		return mappings.get(requestUri);
 	}

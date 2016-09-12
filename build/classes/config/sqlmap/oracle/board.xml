@@ -15,7 +15,8 @@
 	
 	<update id="updateBoard" parameterType="board">
 		update t86_board 
-		   set title = #{title} 
+		   set title = #{title}, 
+		   	   content = #{content}
 		 where no = #{no}    	    
 	</update>
 	

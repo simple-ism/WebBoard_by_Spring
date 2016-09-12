@@ -25,12 +25,12 @@ package framework;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +47,13 @@ public class DispatcherServlet extends HttpServlet{
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		mappings = new URLHandleMapping();
+		String ctrlNames = config.getInitParameter("controllers");
+		try {
+			mappings = new URLHandleMapping(ctrlNames);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		} 
 	}
 
 
@@ -71,13 +77,15 @@ public class DispatcherServlet extends HttpServlet{
 //		System.out.println("requestUri : " + requestUri);
 //		
 		String view="";
-		Controller controller = mappings.getController(requestUri);
-		System.out.println(controller);
-		if(controller == null){
+		CtrlAndMethod cam = mappings.getCtrlAndMethod(requestUri);
+
+		if(cam== null){
 			throw new ServletException("요청하신 URL이 존재하지 않습니다.");
 		}
 		try{
-			ModelAndView mav = controller.execute(request,response);
+			Object target = cam.getTarget();
+			Method method = cam.getMethod();
+			ModelAndView mav = (ModelAndView)method.invoke(target, request,response);
 			view = mav.getView();
 			if(view.startsWith("redirect:")){
 				

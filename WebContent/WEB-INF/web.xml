@@ -5,7 +5,7 @@
   <!-- 필터 클래스 등록 -->
   <filter>
       <filter-name>encoding</filter-name>
-      <filter-class>filter.EncodingFilter</filter-class>
+      <filter-class>kr.co.mlec.filter.EncodingFilter</filter-class>
       <init-param>
           <param-name>charset</param-name>
           <param-value>utf-8</param-value>
@@ -20,7 +20,7 @@
   
 <!--   <filter> -->
 <!--      <filter-name>authFilter</filter-name> -->
-<!--      <filter-class>filter.AuthFilter</filter-class> -->
+<!--      <filter-class>kr.co.mlec.filter.AuthFilter</filter-class> -->
 <!--      <init-param> -->
 <!--          <param-name>pages</param-name> -->
 <!--          <param-value> -->
@@ -42,7 +42,14 @@
   <servlet>
   	<servlet-name>dispatcher</servlet-name>
   	<servlet-class>framework.DispatcherServlet</servlet-class>
-  
+  	<init-param>
+  		<param-name>controllers</param-name>
+  		<param-value>
+  			kr.co.mlec.board.controller.BoardController;
+  			kr.co.mlec.login.controller.LoginController
+  			
+   		</param-value>
+  	</init-param>
   
   </servlet>
   
